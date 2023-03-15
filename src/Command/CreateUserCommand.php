@@ -8,11 +8,9 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-// the name of the command is what users type after "php bin/console"
 #[AsCommand(
     name: 'app:create-admin',
     description: 'Creates a admin user.',
@@ -54,12 +52,6 @@ class CreateUserCommand extends Command
         $this->io->text('admin@admin.fr / toto1234');
 
         return Command::SUCCESS;
-
-        /*$helper = $this->getHelper('question');
-        $questionLogin = new Question('username ?');
-        $questionPassword = new Question('password ?');
-        $questionPassword->setHidden(true);
-        $questionPassword->setHiddenFallback(false);*/
     }
 
     protected function configure(): void

@@ -28,6 +28,7 @@ class Character
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -35,18 +36,23 @@ class Character
     private string $name;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read'])]
     private string $status;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read'])]
     private string $species;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read'])]
     private string $type;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read'])]
     private string $gender;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read'])]
     private ?string $image = null;
 
     #[ORM\ManyToOne(inversedBy: 'characters')]
@@ -54,6 +60,7 @@ class Character
     private ?Origin $origin = null;
 
     #[ORM\ManyToOne(inversedBy: 'characters')]
+    #[Groups(['read'])]
     private ?Location $location = null;
 
     public function getId(): ?int

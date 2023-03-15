@@ -31,6 +31,7 @@ class Origin
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read'])]
     private ?string $url = null;
 
     #[ORM\OneToMany(mappedBy: 'origin', targetEntity: Character::class)]

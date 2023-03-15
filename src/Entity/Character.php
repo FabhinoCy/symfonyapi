@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use App\Repository\CharacterRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CharacterRepository::class)]
 #[ORM\Table(name: '`character`')]
@@ -18,9 +19,10 @@ use Doctrine\ORM\Mapping as ORM;
         new Get(),
         new Post(),
         new GetCollection(),
-    ]
+    ],
+    normalizationContext: ['groups' => ['read']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['name' => 'exact', 'origin' => 'exact', 'location' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['origin.name' => 'exact', 'location.name' => 'exact'])]
 class Character
 {
     #[ORM\Id]
@@ -29,6 +31,7 @@ class Character
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read'])]
     private string $name;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -46,10 +49,11 @@ class Character
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'characters')]
+    #[Groups(['read'])]
     private ?Origin $origin = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'characters')]
     private ?Location $location = null;
 
     public function getId(): ?int

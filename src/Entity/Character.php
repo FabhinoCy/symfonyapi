@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CharacterRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CharacterRepository::class)]
@@ -17,29 +16,29 @@ class Character
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: false)]
-    private ?string $name = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private string $name;
 
-    #[ORM\Column(length: 255, nullable: false)]
-    private ?string $status = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private string $status;
 
-    #[ORM\Column(length: 255, nullable: false)]
-    private ?string $species = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private string $species;
 
-    #[ORM\Column(length: 255, nullable: false)]
-    private ?string $type = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private string $type;
 
-    #[ORM\Column(length: 255, nullable: false)]
-    private ?string $gender = null;
-
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private array $origin = [];
-
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private array $location = [];
+    #[ORM\Column(length: 255, nullable: true)]
+    private string $gender;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Origin $origin = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Location $location = null;
 
     public function getId(): ?int
     {
@@ -106,30 +105,6 @@ class Character
         return $this;
     }
 
-    public function getOrigin(): array
-    {
-        return $this->origin;
-    }
-
-    public function setOrigin(?array $origin): self
-    {
-        $this->origin = $origin;
-
-        return $this;
-    }
-
-    public function getLocation(): array
-    {
-        return $this->location;
-    }
-
-    public function setLocation(?array $location): self
-    {
-        $this->location = $location;
-
-        return $this;
-    }
-
     public function getImage(): ?string
     {
         return $this->image;
@@ -138,6 +113,30 @@ class Character
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getOrigin(): ?Origin
+    {
+        return $this->origin;
+    }
+
+    public function setOrigin(?Origin $origin): self
+    {
+        $this->origin = $origin;
+
+        return $this;
+    }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?Location $location): self
+    {
+        $this->location = $location;
 
         return $this;
     }
